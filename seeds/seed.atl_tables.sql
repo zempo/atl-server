@@ -16,12 +16,4 @@ INSERT INTO scripts (title_page, body, user_id)
     ('Great New Beginnings [line] Mark Wallace [line] An Original Screenplay', '[Int. Facebook HQ] Mark Zuckerberg slowly closes his laptop -- letting out a heavy sigh. [Mark] It''s the best website I have ever seen. Impossible. Simply impossible! How can I compete!?', 1),
     ('Jom and Terry [line] Mike Man [line] Based on the classic cartoon', '[Ext. House with no controversial depictions of women of color.] Tom and Jerry have two children named Jom and Terry. They have since matured greatly and sought out psychiatric help to address their issues. Surprisingly they discovered a romantic compatibility. [Tom] Yeeeeeowwwwwwwww. [Jerry] *smirks silently.', 2);
 
--- CREATE TABLE scripts (
--- id SERIAL PRIMARY KEY,
--- title_page TEXT NOT NULL,
--- body TEXT NOT NULL,
--- date_created TIMESTAMP DEFAULT now() NOT NULL,
--- date_updated TIMESTAMP
--- );
-
 COMMIT; 
