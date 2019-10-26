@@ -1,0 +1,4 @@
+TRUNCATE
+  scripts,
+  users
+  RESTART IDENTITY CASCADE;
