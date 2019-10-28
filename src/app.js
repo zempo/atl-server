@@ -1,18 +1,18 @@
 require("dotenv").config();
-// IF USING API KEY
-const bearer = require("./middleware/bearer");
-//
+//////////// IMPORTS ///////////////////
+// const bearer = require("./middleware/bearer");
 const express = require("express");
 const errorCatch = require("./middleware/error");
 const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const logger = require("./middleware/logger").logger;
-const { PORT, NODE_ENV } = require("./config");
+const { NODE_ENV } = require("./config");
 const winston = require("winston");
-// routes
-// const exampleRouter = require('./routes/api/example')
+// ROUTE IMPORTS
+const authRouter = require("./routes/auth-router");
 
+//////////// APP ///////////////////
 const app = express();
 // make sure cors() is at the top
 app.use(cors());
@@ -26,14 +26,14 @@ if (NODE_ENV !== "production") {
     })
   );
 }
-// if using bearer authorization
-// app.use(bearer)
 
 app.use(morgan(morganOption));
 app.use(helmet());
 
-// if using routes
-// app.use(exampleRouter)
+// ROUTES
+app.use("/api/auth", authRouter);
+app.use("/api/scripts", scriptsRouter);
+app.use("/api/users", usersRouter);
 
 app.get("/", (req, res) => {
   res.send("Above the Line");

@@ -4,7 +4,7 @@ const config = require("../config");
 
 const AuthService = {
   getUserWithEmail(db, email) {
-    return db("jto_users")
+    return db("users")
       .where({ email })
       .first();
   },
