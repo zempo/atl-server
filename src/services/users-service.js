@@ -108,7 +108,7 @@ const UsersService = {
       user_name: xss(userData.user_name),
       email: xss(userData.email),
       date_created: new Date(userData.date_created),
-      date_modified: userData.date_modified || null
+      date_updated: userData.date_updated || null
     };
   },
   serializeUsername(user) {

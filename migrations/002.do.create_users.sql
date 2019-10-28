@@ -5,7 +5,7 @@ user_name TEXT NOT NULL UNIQUE,
 password TEXT NOT NULL,
 email TEXT NOT NULL UNIQUE, 
 date_created TIMESTAMP NOT NULL DEFAULT now(),
-date_modified TIMESTAMP
+date_updated TIMESTAMP
 );
 
-ALTER TABLE scripts ADD COLUMN user_id INTEGER REFERENCES users(id) ON DELETE SET NULL; 
+ALTER TABLE scripts ADD COLUMN user_id INTEGER REFERENCES users(id) ON DELETE SET NULL;  

@@ -19,8 +19,8 @@ usersRouter
     }
   })
   .post(jsonBodyParser, (req, res, next) => {
-    const { password, user_name, full_name, email } = req.body;
-    const newUser = { password, user_name, full_name, email };
+    const { password, user_name, email } = req.body;
+    const newUser = { password, user_name, email };
 
     async function validateUser(user, service) {
       try {

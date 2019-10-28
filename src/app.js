@@ -34,7 +34,7 @@ app.use(helmet());
 
 // ROUTES
 app.use("/api/auth", authRouter);
-// app.use("/api/scripts", scriptsRouter);
+app.use("/api/scripts", scriptsRouter);
 app.use("/api/users", usersRouter);
 
 app.get("/", (req, res) => {
