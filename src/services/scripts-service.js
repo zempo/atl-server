@@ -61,15 +61,16 @@ const ScriptsService = {
       .delete();
   },
   updateScript(db, id, newScriptFields) {
+    console.log(newScriptFields);
     return db("scripts")
-      .where({ id })
+      .where({ "scripts.id": id })
       .update(newScriptFields);
   },
   correctUser(loggedInId, targetId) {
     const NO_ERRORS = null;
     if (loggedInId !== targetId) {
       return {
-        error: `User does not match script.`
+        error: `This script does not belong to you. Make sure you are logged into the correct account.`
       };
     }
     return NO_ERRORS;
@@ -96,6 +97,8 @@ const ScriptsService = {
 
     return {
       id: scriptData.id,
+      date_created: scriptData.date_created,
+      date_updated: scriptData.date_updated || null,
       title: xss(scriptData.title),
       author: xss(scriptData.author),
       subtitle: xss(scriptData.subtitle),

@@ -62,6 +62,30 @@ scriptsRouter
     } else {
       res.status(403).end();
     }
+  })
+  .patch(jsonBodyParser, (req, res, next) => {
+    const { title, author, subtitle, body, actors, tags } = req.body;
+    const newScript = { title, author, subtitle, body, actors, tags };
+    newScript.date_modified = new Date().toLocaleString();
+
+    async function validateScript(script, service) {
+      try {
+        const wrongUser = await service.correctUser(req.user.id, res.script[0]["user:id"]);
+        if (wrongUser) return res.status(403).json(wrongUser);
+
+        const updatedScript = await service.updateScript(req.app.get("db"), req.params.script_id, script);
+        if (!updatedScript) {
+          return res.status(409).json({ error: "request timeout" });
+        }
+
+        return res.status(204).end();
+      } catch (error) {
+        next(error);
+      }
+    }
+
+    const editScript = validateScript(newScript, ScriptsService);
+    editScript;
   });
 
 async function checkForScripts(req, res, next) {
