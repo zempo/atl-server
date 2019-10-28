@@ -57,7 +57,7 @@ const ScriptsService = {
   },
   deleteScript(db, id) {
     return db("scripts")
-      .where({ id })
+      .where({ "scripts.id": id })
       .delete();
   },
   updateScript(db, id, newScriptFields) {

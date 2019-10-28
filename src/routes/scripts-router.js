@@ -51,6 +51,17 @@ scriptsRouter
     } else {
       res.status(403).end();
     }
+  })
+  .delete((req, res, next) => {
+    if (req.user.id === res.script[0]["user:id"]) {
+      ScriptsService.deleteScript(req.app.get("db"), req.params.script_id)
+        .then((rowsAffected) => {
+          res.status(204).end();
+        })
+        .catch(next);
+    } else {
+      res.status(403).end();
+    }
   });
 
 async function checkForScripts(req, res, next) {
