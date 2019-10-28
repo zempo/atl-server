@@ -66,7 +66,7 @@ scriptsRouter
   .patch(jsonBodyParser, (req, res, next) => {
     const { title, author, subtitle, body, actors, tags } = req.body;
     const newScript = { title, author, subtitle, body, actors, tags };
-    newScript.date_modified = new Date().toLocaleString();
+    newScript.date_updated = new Date().toLocaleString();
 
     async function validateScript(script, service) {
       try {

@@ -61,7 +61,6 @@ const ScriptsService = {
       .delete();
   },
   updateScript(db, id, newScriptFields) {
-    console.log(newScriptFields);
     return db("scripts")
       .where({ "scripts.id": id })
       .update(newScriptFields);
