@@ -31,9 +31,6 @@ usersRouter
         let invalidUser = await service.validateUserName(user.user_name);
         if (invalidUser) return res.status(400).json({ error: invalidUser });
 
-        let invalidName = await service.validateFullName(user.full_name);
-        if (invalidName) return res.status(400).json({ error: invalidName });
-
         let invalidEmail = await service.validateEmail(user.email);
         if (invalidEmail) return res.status(400).json({ error: invalidEmail });
 

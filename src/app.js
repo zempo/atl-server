@@ -11,6 +11,8 @@ const { NODE_ENV } = require("./config");
 const winston = require("winston");
 // ROUTE IMPORTS
 const authRouter = require("./routes/auth-router");
+const usersRouter = require("./routes/users-router");
+const scriptsRouter = require("./routes/scripts-router");
 
 //////////// APP ///////////////////
 const app = express();
@@ -32,7 +34,7 @@ app.use(helmet());
 
 // ROUTES
 app.use("/api/auth", authRouter);
-app.use("/api/scripts", scriptsRouter);
+// app.use("/api/scripts", scriptsRouter);
 app.use("/api/users", usersRouter);
 
 app.get("/", (req, res) => {
