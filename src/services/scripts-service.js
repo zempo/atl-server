@@ -52,7 +52,7 @@ const ScriptsService = {
       .into("scripts")
       .returning("*")
       .then((script) => {
-        return ScriptsService.getScriptById(db, script.user_id, script.id);
+        return ScriptsService.getScriptById(db, script[0].user_id, script[0].id);
       });
   },
   deleteScript(db, id) {
@@ -74,11 +74,17 @@ const ScriptsService = {
     }
     return NO_ERRORS;
   },
-  postValidator(script) {
-    //
+  postValidation(script) {
+    // future validation
+    const NO_ERRORS = null;
+
+    return NO_ERRORS;
   },
-  patchValidator(script) {
-    //
+  patchValidation(script) {
+    // future validation
+    const NO_ERRORS = null;
+
+    return NO_ERRORS;
   },
   serializeScripts(scripts) {
     return scripts.map(this.serializeScript);
