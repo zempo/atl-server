@@ -69,10 +69,18 @@ const ScriptsService = {
     const NO_ERRORS = null;
     if (loggedInId !== targetId) {
       return {
-        error: `This script does not belong to you. Make sure you are logged into the correct account.`
+        error: `This resource does not belong to you. Make sure you are logged into the correct account.`
       };
     }
     return NO_ERRORS;
+  },
+  sanitizeTags(tags) {
+    let sanitizedTags = [];
+    tags.forEach((tag) => {
+      let clean = xss(tag);
+      sanitizedTags.push(clean);
+    });
+    return sanitizedTags;
   },
   postValidation(script) {
     // future validation

@@ -22,6 +22,13 @@ scriptsRouter
     const newScript = { title, author, subtitle, body, actors, tags };
     newScript.user_id = req.user.id;
 
+    if (!(tags == undefined)) {
+      newScript.tags = ScriptsService.sanitizeTags(tags);
+    }
+    if (!(actors == undefined)) {
+      newScript.actors = ScriptsService.sanitizeTags(actors);
+    }
+
     async function validateScript(script, service) {
       try {
         // const error = await service.postValidator(script);
@@ -68,6 +75,13 @@ scriptsRouter
     const newScript = { title, author, subtitle, body, actors, tags };
     newScript.date_updated = new Date().toLocaleString();
 
+    if (!(tags == undefined)) {
+      newScript.tags = ScriptsService.sanitizeTags(tags);
+    }
+    if (!(actors == undefined)) {
+      newScript.actors = ScriptsService.sanitizeTags(actors);
+    }
+
     async function validateScript(script, service) {
       try {
         const wrongUser = await service.correctUser(req.user.id, res.script[0]["user:id"]);
@@ -103,7 +117,7 @@ async function checkForScripts(req, res, next) {
 async function checkForScript(req, res, next) {
   try {
     const script = await ScriptsService.getScriptById(req.app.get("db"), req.params.user_id, req.params.script_id);
-    if (script.length === 0) return res.status(404).json({ error: "This script might have been moved or deleted." });
+    if (script.length === 0) return res.status(404).json({ error: "This resource might have been moved or deleted." });
 
     res.script = script;
     next();

@@ -10,7 +10,7 @@ function makeTestUsers() {
       password: "password",
       email: "test1@email.com",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null
+      date_updated: null
     },
     {
       id: 2,
@@ -19,7 +19,7 @@ function makeTestUsers() {
       password: "password",
       email: "test2@email.com",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null
+      date_updated: null
     },
     {
       id: 3,
@@ -28,7 +28,7 @@ function makeTestUsers() {
       password: "password",
       email: "test3@email.com",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null
+      date_updated: null
     },
     {
       id: 4,
@@ -37,7 +37,7 @@ function makeTestUsers() {
       password: "password",
       email: "test4@email.com",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null
+      date_updated: null
     },
     {
       id: 5,
@@ -46,7 +46,7 @@ function makeTestUsers() {
       password: "password",
       email: "test5@email.com",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null
+      date_updated: null
     }
   ];
 }
@@ -63,7 +63,7 @@ function makeTestScripts(users) {
       actors: "{Mark,Mary}",
       tags: "{Int,Ext,Description,Line-break}",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null,
+      date_updated: null,
       user_id: users[0].id
     },
     {
@@ -75,7 +75,7 @@ function makeTestScripts(users) {
       actors: "{Mark,Mary}",
       tags: "{Int,Ext,Description,Line-break}",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null,
+      date_updated: null,
       user_id: users[1].id
     },
     {
@@ -87,7 +87,7 @@ function makeTestScripts(users) {
       actors: "{Mark,Mary}",
       tags: "{Int,Ext,Description,Line-break}",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null,
+      date_updated: null,
       user_id: users[1].id
     },
     {
@@ -99,7 +99,7 @@ function makeTestScripts(users) {
       actors: "{Mark,Mary}",
       tags: "{Int,Ext,Description,Line-break}",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null,
+      date_updated: null,
       user_id: users[0].id
     },
     {
@@ -111,7 +111,7 @@ function makeTestScripts(users) {
       actors: "{Mark,Mary}",
       tags: "{Int,Ext,Description,Line-break}",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null,
+      date_updated: null,
       user_id: users[2].id
     },
     {
@@ -123,25 +123,66 @@ function makeTestScripts(users) {
       actors: "{Mark,Mary}",
       tags: "{Int,Ext,Description,Line-break}",
       date_created: "2029-01-22T16:28:32.615Z",
-      date_modified: null,
+      date_updated: null,
       user_id: users[3].id
     }
   ];
 }
 
-function makeExpectedUserScript(users, script) {
+function makeExpectedScript(users, script) {
   const usr = users.find((user) => user.id === script.user_id);
 
   return {
     id: script.id,
+    date_created: card.date_created,
+    date_updated: card.date_updated,
     title: script.title,
     author: script.author,
     subtitle: script.subtitle,
     body: script.body,
     actors: script.actors,
     tags: script.tags,
+    user: {
+      id: usr.id,
+      admin: usr.admin,
+      user_name: usr.user_name,
+      date_created: usr.date_created
+    }
+  };
+}
+
+function makeMaliciousScript(user) {
+  const maliciousScript = {
+    id: 666,
+    date_created: new Date().toISOString(),
+    date_updated: null,
+    title: `Hacky-sack <script>alert("we are anonymous");</script>`,
+    author: `Nick-nack <script>alert("Currella De Ville");</script>`,
+    subtitle: `Paddy-whack <script>alert("Based on a hacky plot");</script>`,
+    body: "[Int.] Some evil lair [<script>Evil Tag<script/>] All tests pass",
+    actors: "{Mark,Mary}",
+    tags: "{Int,Ext,Description,Line-break}",
+    user_id: users[0].id
+  };
+
+  const expectScript = {
+    ...makeExpectedScript([user], maliciousScript),
+    title: `Hacky-sack &lt;script&gt;alert("we are anonymous");&lt;/script&gt;`,
+    author: `Nick-nack &lt;script&gt;alert("Currella De Ville");&lt;/script&gt;`,
+    subtitle: `Paddy-whack &lt;script&gt;alert("Based on a hacky plot");&lt;/script&gt;`,
+    body: "[Int.] Some evil lair [&lt;script&gt;Evil Tag&lt;script/&gt;] All tests pass"
+  };
+
+  return {
+    id: script.id,
     date_created: card.date_created,
-    date_modified: card.date_modified,
+    date_updated: card.date_updated,
+    title: script.title,
+    author: script.author,
+    subtitle: script.subtitle,
+    body: script.body,
+    actors: script.actors,
+    tags: script.tags,
     user: {
       id: usr.id,
       admin: usr.admin,
@@ -154,5 +195,5 @@ function makeExpectedUserScript(users, script) {
 module.exports = {
   makeTestUsers,
   makeTestScripts,
-  makeExpectedUserScript
+  makeExpectedScript
 };
