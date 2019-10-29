@@ -41,7 +41,7 @@ usersRouter
         if (userNameExists) return res.status(400).json({ error: "Username already taken." });
 
         let emailExists = await service.uniqueEmail(req.app.get("db"), user.email);
-        if (emailExists) return res.status(400).json({ error: "An account with this email has already been created." });
+        if (emailExists) return res.status(400).json({ error: "There's already an account with this email." });
 
         // then we hash password
         let hashpwd = await service.hashPassword(user.password);
@@ -85,17 +85,47 @@ usersRouter
       res.status(403).end();
     }
   })
-  .patch((req, res, next) => {
+  .patch(jsonBodyParser, (req, res, next) => {
     const { password, user_name, email } = req.body;
     const newUser = { password, user_name, email };
     newUser.date_updated = new Date().toLocaleString();
 
+    async function validatePatch(user, service) {
+      try {
+        let invalidUser = await service.validateUserName(user.user_name);
+        if (invalidUser) return res.status(400).json({ error: invalidUser });
+
+        let invalidEmail = await service.validateEmail(user.email);
+        if (invalidEmail) return res.status(400).json({ error: invalidEmail });
+
+        let invalidPassword = await service.validatePassword(user.password);
+        if (invalidPassword) return res.status(400).json({ error: invalidPassword });
+
+        let userNameExists = await service.uniqueUserName(req.app.get("db"), user.user_name);
+        if (userNameExists) return res.status(400).json({ error: "Username already taken." });
+
+        let emailExists = await service.uniqueEmail(req.app.get("db"), user.email);
+        if (emailExists) return res.status(400).json({ error: "There's already an account with this email." });
+
+        let updatedUser = service.updateUser(req.app.get("db"), res.user.id, newUser);
+
+        if (!updatedUser) {
+          return res.status(409).json({ error: "request timeout" });
+        }
+
+        return res.status(204).end();
+      } catch (error) {
+        next(error);
+      }
+    }
     if (req.user.id === res.user.id) {
-      UsersService.updateUser(req.app.get("db"), res.user.id)
-        .then((rowsAffected) => {
-          res.status(204).end();
-        })
-        .catch(next);
+      // UsersService.updateUser(req.app.get("db"), res.user.id, newUser)
+      //   .then((rowsAffected) => {
+      //     res.status(204).end();
+      //   })
+      //   .catch(next);
+      const editUser = validatePatch(newUser, UsersService);
+      editUser;
     } else {
       res.status(403).end();
     }

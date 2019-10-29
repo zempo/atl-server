@@ -37,6 +37,9 @@ const UsersService = {
       .delete();
   },
   uniqueUserName(db, user_name) {
+    if (user_name == undefined) {
+      return null;
+    }
     return db("users")
       .where({ user_name })
       .first()
@@ -45,6 +48,9 @@ const UsersService = {
       });
   },
   uniqueEmail(db, email) {
+    if (email == undefined) {
+      return null;
+    }
     return db("users")
       .where({ email })
       .first()
@@ -77,12 +83,18 @@ const UsersService = {
     return null;
   },
   validateEmail(email) {
+    if (email == undefined) {
+      return null;
+    }
     if (validator.validate(email) == false) {
       return "Invalid email";
     }
     return null;
   },
   validatePassword(password) {
+    if (password == undefined) {
+      return null;
+    }
     if (password.length < 8) {
       return "Password must be longer than 8 characters";
     }
