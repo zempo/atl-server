@@ -165,7 +165,7 @@ function makeMaliciousScript(user) {
     user_id: users[0].id
   };
 
-  const expectScript = {
+  const expectedScript = {
     ...makeExpectedScript([user], maliciousScript),
     title: `Hacky-sack &lt;script&gt;alert("we are anonymous");&lt;/script&gt;`,
     author: `Nick-nack &lt;script&gt;alert("Currella De Ville");&lt;/script&gt;`,
@@ -174,26 +174,63 @@ function makeMaliciousScript(user) {
   };
 
   return {
-    id: script.id,
-    date_created: card.date_created,
-    date_updated: card.date_updated,
-    title: script.title,
-    author: script.author,
-    subtitle: script.subtitle,
-    body: script.body,
-    actors: script.actors,
-    tags: script.tags,
-    user: {
-      id: usr.id,
-      admin: usr.admin,
-      user_name: usr.user_name,
-      date_created: usr.date_created
-    }
+    maliciousScript,
+    expectedScript
   };
+}
+
+function makeAppFixtures() {
+  const testUsers = makeTestUsers();
+  const testScripts = makeTestScripts(testUsers);
+
+  return { testUsers, testScripts };
+}
+
+function cleanTables(db) {
+  return db.raw(`TRUNCATE scripts, users RESTART IDENTITY CASCADE`);
+}
+
+function seedUsers(db, users) {
+  const preppedUsers = users.map((user) => ({
+    ...user,
+    password: bcrypt.hashSync(user.password, 10)
+  }));
+  return db
+    .into("users")
+    .insert(preppedUsers)
+    .then(() => db.raw(`SELECT setVal('users_id_seq', ?)`, [users[users.length - 1].id]));
+}
+
+function seedScripts(db, users, scripts) {
+  return db.transaction(async (trx) => {
+    await seedUsers(trx, users);
+    await trx.into("scripts").insert(scripts);
+    await trx.raw(`SELECT setval('scripts_id_seq', ?)`, [scripts[scripts.length - 1].id]);
+  });
+}
+
+function seedMaliciousScript(db, user, script) {
+  return seedUsers(db, [user]).then(() => db.into("scripts").insert(script));
+}
+
+function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
+  const token = jwt.sign({ user_id: user.id }, secret, {
+    subject: user.email,
+    algorithm: "HS256"
+  });
+  // console.log(token)
+  return `Bearer ${token}`;
 }
 
 module.exports = {
   makeTestUsers,
   makeTestScripts,
-  makeExpectedScript
+  makeExpectedScript,
+  makeMaliciousScript,
+  makeAppFixtures,
+  cleanTables,
+  seedUsers,
+  seedScripts,
+  seedMaliciousScript,
+  makeAuthHeader
 };

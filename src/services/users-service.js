@@ -26,6 +26,11 @@ const UsersService = {
         return user;
       });
   },
+  updateUser(db, id, newUserFields) {
+    return db("users")
+      .where({ "users.id": id })
+      .update(newUserFields);
+  },
   deleteUser(db, id) {
     return db("users")
       .where({ id })

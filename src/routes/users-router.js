@@ -64,13 +64,6 @@ usersRouter
   });
 
 usersRouter
-  .route("/public/:user_id")
-  .all(checkUserExists)
-  .get((req, res) => {
-    res.json(UsersService.serializeUsername(res.user));
-  });
-
-usersRouter
   .route("/:user_id")
   .all(requireAuth)
   .all(checkUserExists)
@@ -84,6 +77,21 @@ usersRouter
   .delete((req, res, next) => {
     if (req.user.id === res.user.id || req.user.admin) {
       UsersService.deleteUser(req.app.get("db"), res.user.id)
+        .then((rowsAffected) => {
+          res.status(204).end();
+        })
+        .catch(next);
+    } else {
+      res.status(403).end();
+    }
+  })
+  .patch((req, res, next) => {
+    const { password, user_name, email } = req.body;
+    const newUser = { password, user_name, email };
+    newUser.date_updated = new Date().toLocaleString();
+
+    if (req.user.id === res.user.id) {
+      UsersService.updateUser(req.app.get("db"), res.user.id)
         .then((rowsAffected) => {
           res.status(204).end();
         })
