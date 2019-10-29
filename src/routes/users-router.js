@@ -86,6 +86,8 @@ usersRouter
     }
   })
   .patch(jsonBodyParser, (req, res, next) => {
+    // password and email will require second log-in
+    // use for eventual bio and other meta data for user
     const { password, user_name, email } = req.body;
     const newUser = { password, user_name, email };
     newUser.date_updated = new Date().toLocaleString();
@@ -107,7 +109,7 @@ usersRouter
         let emailExists = await service.uniqueEmail(req.app.get("db"), user.email);
         if (emailExists) return res.status(400).json({ error: "There's already an account with this email." });
 
-        let updatedUser = service.updateUser(req.app.get("db"), res.user.id, newUser);
+        let updatedUser = await service.updateUser(req.app.get("db"), req.params.user_id, newUser);
 
         if (!updatedUser) {
           return res.status(409).json({ error: "request timeout" });
@@ -119,11 +121,6 @@ usersRouter
       }
     }
     if (req.user.id === res.user.id) {
-      // UsersService.updateUser(req.app.get("db"), res.user.id, newUser)
-      //   .then((rowsAffected) => {
-      //     res.status(204).end();
-      //   })
-      //   .catch(next);
       const editUser = validatePatch(newUser, UsersService);
       editUser;
     } else {

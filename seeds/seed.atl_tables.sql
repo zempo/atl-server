@@ -7,9 +7,9 @@ TRUNCATE
 
 INSERT INTO users (admin, user_name, email, password)
     VALUES
-    (TRUE, 'Mark Wallace', 'markwallace@scriptmail.com', '$2a$10$i57JnoTkJYAT3uFoPtSOze2FJziY6ldRtDHwTrnoDPpbYSMpxhRqq'),
-    (default, 'Mike Man', 'jenglish@uk.gov', '$2a$10$HlKayYzBDUqodJDIzzJIgOcxGlgoGKG2tdqiRcfRbONRscR6cLbNq'),
-    (default, 'Mindy Momo', 'mmomo@gmail.com', '$2a$10$xK7keBV2VfSBU9P4W9ENYu5DX96Zn4ONnTuihzeXDmY552gmk5FuC');
+    (TRUE, 'MarkWallace', 'markwallace@scriptmail.com', '$2a$10$i57JnoTkJYAT3uFoPtSOze2FJziY6ldRtDHwTrnoDPpbYSMpxhRqq'),
+    (default, 'MikeMan', 'jenglish@uk.gov', '$2a$10$HlKayYzBDUqodJDIzzJIgOcxGlgoGKG2tdqiRcfRbONRscR6cLbNq'),
+    (default, 'MindyMomo', 'mmomo@gmail.com', '$2a$10$xK7keBV2VfSBU9P4W9ENYu5DX96Zn4ONnTuihzeXDmY552gmk5FuC');
 
 INSERT INTO scripts (title, author, subtitle, body, actors, user_id)
     VALUES

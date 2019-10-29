@@ -63,6 +63,11 @@ describe(`Protected Endpoints can reject unauthorized users`, () => {
       name: "DELETE /api/users/:user_id",
       path: "/api/users/:user_id",
       method: supertest(app).delete
+    },
+    {
+      name: "PATCH /api/users/:user_id",
+      path: "/api/users/:user_id",
+      method: supertest(app).patch
     }
   ];
 

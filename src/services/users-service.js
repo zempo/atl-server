@@ -68,6 +68,9 @@ const UsersService = {
     return null;
   },
   validateUserName(user_name) {
+    if (user_name == undefined) {
+      return null;
+    }
     if (!REGEX_ALPHA_NUM_UNDERSCORE.test(user_name)) {
       return "Username can only consist of alphanumeric characters, underscores, or hyphens.";
     }
