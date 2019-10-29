@@ -87,6 +87,7 @@ usersRouter
   })
   .patch(jsonBodyParser, (req, res, next) => {
     // password and email will require second log-in
+    // will need to configure this in the front-end (update info and log-out)
     // use for eventual bio and other meta data for user
     const { password, user_name, email } = req.body;
     const newUser = { password, user_name, email };
