@@ -9,6 +9,7 @@ function makeTestUsers() {
       user_name: "test-user-1",
       password: "password",
       email: "test1@email.com",
+      theme: "#607d8b",
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null
     },
@@ -18,6 +19,7 @@ function makeTestUsers() {
       user_name: "test-user-2",
       password: "password",
       email: "test2@email.com",
+      theme: "#607d8b",
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null
     },
@@ -27,6 +29,7 @@ function makeTestUsers() {
       user_name: "test-user-3",
       password: "password",
       email: "test3@email.com",
+      theme: "#607d8b",
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null
     },
@@ -36,6 +39,7 @@ function makeTestUsers() {
       user_name: "test-user-4",
       password: "password",
       email: "test4@email.com",
+      theme: "#607d8b",
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null
     },
@@ -45,6 +49,7 @@ function makeTestUsers() {
       user_name: "test-user-5",
       password: "password",
       email: "test5@email.com",
+      theme: "#607d8b",
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null
     }
@@ -60,8 +65,8 @@ function makeTestScripts(users) {
       author: "Author 1",
       subtitle: "Based on an original test",
       body: "[Int.] Mocha Testing Suite [Desc.] All tests pass",
-      actors: "{Mark,Mary}",
-      tags: "{Int,Ext,Description,Line-break}",
+      actors: ["Mark", "Mary"],
+      tags: ["Int", "Ext", "Description", "Line-break"],
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null,
       user_id: users[0].id
@@ -72,8 +77,8 @@ function makeTestScripts(users) {
       author: "Author 1",
       subtitle: "Based on an original test",
       body: "[Int.] Mocha Testing Suite [Desc.] All tests pass again.",
-      actors: "{Mark,Mary}",
-      tags: "{Int,Ext,Description,Line-break}",
+      actors: ["Mark", "Mary"],
+      tags: ["Int", "Ext", "Description", "Line-break"],
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null,
       user_id: users[1].id
@@ -84,8 +89,8 @@ function makeTestScripts(users) {
       author: "Author 2",
       subtitle: "Based on an original test",
       body: "[Int.] Mocha Testing Suite [Desc.] All tests pass a third time.",
-      actors: "{Mark,Mary}",
-      tags: "{Int,Ext,Description,Line-break}",
+      actors: ["Mark", "Mary"],
+      tags: ["Int", "Ext", "Description", "Line-break"],
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null,
       user_id: users[1].id
@@ -96,8 +101,8 @@ function makeTestScripts(users) {
       author: "Author 1",
       subtitle: "Based on an original test",
       body: "[Int.] Mocha Testing Suite [Desc.] All tests pass a fourth time.",
-      actors: "{Mark,Mary}",
-      tags: "{Int,Ext,Description,Line-break}",
+      actors: ["Mark", "Mary"],
+      tags: ["Int", "Ext", "Description", "Line-break"],
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null,
       user_id: users[0].id
@@ -108,8 +113,8 @@ function makeTestScripts(users) {
       author: "Author 3",
       subtitle: "Based on an original test",
       body: "[Int.] Mocha Testing Suite [Desc.] All tests pass a fifth time.",
-      actors: "{Mark,Mary}",
-      tags: "{Int,Ext,Description,Line-break}",
+      actors: ["Mark", "Mary"],
+      tags: ["Int", "Ext", "Description", "Line-break"],
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null,
       user_id: users[2].id
@@ -120,8 +125,8 @@ function makeTestScripts(users) {
       author: "Author 4",
       subtitle: "Based on an original test",
       body: "[Int.] Mocha Testing Suite [Desc.] All tests pass a sixth time.",
-      actors: "{Mark,Mary}",
-      tags: "{Int,Ext,Description,Line-break}",
+      actors: ["Mark", "Mary"],
+      tags: ["Int", "Ext", "Description", "Line-break"],
       date_created: "2029-01-22T16:28:32.615Z",
       date_updated: null,
       user_id: users[3].id
@@ -134,8 +139,8 @@ function makeExpectedScript(users, script) {
 
   return {
     id: script.id,
-    date_created: card.date_created,
-    date_updated: card.date_updated,
+    date_created: script.date_created,
+    date_updated: script.date_updated,
     title: script.title,
     author: script.author,
     subtitle: script.subtitle,
@@ -146,6 +151,7 @@ function makeExpectedScript(users, script) {
       id: usr.id,
       admin: usr.admin,
       user_name: usr.user_name,
+      theme: usr.theme,
       date_created: usr.date_created
     }
   };
@@ -160,8 +166,8 @@ function makeMaliciousScript(user) {
     author: `Nick-nack <script>alert("Currella De Ville");</script>`,
     subtitle: `Paddy-whack <script>alert("Based on a hacky plot");</script>`,
     body: "[Int.] Some evil lair [<script>Evil Tag<script/>] All tests pass",
-    actors: "{Mark,Mary}",
-    tags: "{Int,Ext,Description,Line-break}",
+    actors: ["Mark", "Mary"],
+    tags: ["Int", "Ext", "Description", "Line-break"],
     user_id: users[0].id
   };
 
@@ -216,9 +222,10 @@ function seedMaliciousScript(db, user, script) {
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   const token = jwt.sign({ user_id: user.id }, secret, {
     subject: user.email,
-    algorithm: "HS256"
+    algorithm: "HS256",
+    expiresIn: process.env.JWT_EXPIRY
   });
-  // console.log(token)
+
   return `Bearer ${token}`;
 }
 

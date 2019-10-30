@@ -29,5 +29,5 @@ theme theme DEFAULT '#607d8b',
 date_created TIMESTAMP NOT NULL DEFAULT now(),
 date_updated TIMESTAMP
 );
-
+ 
 ALTER TABLE scripts ADD COLUMN user_id INTEGER REFERENCES users(id) ON DELETE SET NULL;  

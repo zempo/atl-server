@@ -119,6 +119,7 @@ const ScriptsService = {
 
 const userFields = [
   "usr.id AS user:id",
+  "usr.admin AS user:admin",
   "usr.user_name AS user:user_name",
   "usr.theme AS user:theme",
   "usr.date_created AS user:date_created",
