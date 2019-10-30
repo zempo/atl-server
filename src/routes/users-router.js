@@ -89,8 +89,8 @@ usersRouter
     // password and email will require second log-in
     // will need to configure this in the front-end (update info and log-out)
     // use for eventual bio and other meta data for user
-    const { password, user_name, email } = req.body;
-    const newUser = { password, user_name, email };
+    const { password, user_name, email, theme } = req.body;
+    const newUser = { password, user_name, email, theme };
     newUser.date_updated = new Date().toLocaleString();
 
     async function validatePatch(user, service) {

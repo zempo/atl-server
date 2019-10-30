@@ -2,3 +2,4 @@ ALTER TABLE IF EXISTS scripts
     DROP COLUMN user_id;
 
 DROP TABLE IF EXISTS users;
+DROP TYPE IF EXISTS theme;

@@ -127,6 +127,7 @@ const UsersService = {
       admin: userData.admin,
       user_name: xss(userData.user_name),
       email: xss(userData.email),
+      theme: xss(userData.theme),
       date_created: new Date(userData.date_created),
       date_updated: userData.date_updated || null
     };
