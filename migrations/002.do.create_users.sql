@@ -18,7 +18,7 @@ CREATE TYPE theme AS ENUM (
   '#795548',
   '#607d8b'
 );
-
+ 
 CREATE TABLE users (
 id SERIAL PRIMARY KEY,
 admin boolean DEFAULT FALSE,
