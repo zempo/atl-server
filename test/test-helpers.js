@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+// 1st user is admin
 function makeTestUsers() {
   return [
     {
@@ -134,6 +135,18 @@ function makeTestScripts(users) {
   ];
 }
 
+function makeExpectedUser(user) {
+  return {
+    id: user.id,
+    admin: user.admin,
+    user_name: user.user_name,
+    email: user.email,
+    theme: user.theme,
+    date_created: user.date_created,
+    date_updated: user.date_updated
+  };
+}
+
 function makeExpectedScript(users, script) {
   const usr = users.find((user) => user.id === script.user_id);
 
@@ -168,7 +181,7 @@ function makeMaliciousScript(user) {
     body: "[Int.] Some evil lair [<script>Evil Tag<script/>] All tests pass",
     actors: ["Mark", "Mary"],
     tags: ["Int", "Ext", "Description", "Line-break"],
-    user_id: users[0].id
+    user_id: user.id
   };
 
   const expectedScript = {
@@ -233,6 +246,7 @@ module.exports = {
   makeTestUsers,
   makeTestScripts,
   makeExpectedScript,
+  makeExpectedUser,
   makeMaliciousScript,
   makeAppFixtures,
   cleanTables,

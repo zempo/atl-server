@@ -111,7 +111,7 @@ describe(`Endpoints to access scripts`, () => {
 
   describe(`POST a new script to /api/scripts/:user_id`, () => {
     after("spacing", () => console.log("-------------------------------------\n"));
-    context("Given empty request body", () => {
+    context("Given an empty request", () => {
       after("spacer", () => console.log("\n"));
       beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
 
@@ -163,7 +163,43 @@ describe(`Endpoints to access scripts`, () => {
       });
     });
 
-    context("Given a complete request body", () => {
+    context(`Given a malicious request`, () => {
+      after("spacer", () => console.log("\n"));
+      beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
+
+      it("Sanitizes XSS attacks in a POST", () => {
+        const testUser = testUsers[0];
+        const { maliciousScript, expectedScript } = helpers.makeMaliciousScript(testUser);
+        const evilScript = {
+          title: maliciousScript.title,
+          author: maliciousScript.author,
+          subtitle: maliciousScript.subtitle,
+          body: maliciousScript.body,
+          actors: ["<script>marty</script>", "mildred mulder"],
+          tags: ["1", "<script>int</script>", "<script>ext</script>"]
+        };
+
+        return supertest(app)
+          .post(`/api/scripts/${testUser.id}`)
+          .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+          .send(evilScript)
+          .expect(201)
+          .expect((res) => {
+            expect(res.body.title).to.eql(expectedScript.title);
+            expect(res.body.author).to.eql(expectedScript.author);
+            expect(res.body.subtitle).to.eql(expectedScript.subtitle);
+            expect(res.body.body).to.eql(expectedScript.body);
+            expect(res.body.actors).to.include.members(["&lt;script&gt;marty&lt;/script&gt;", "mildred mulder"]);
+            expect(res.body.tags).to.include.members([
+              "1",
+              "&lt;script&gt;int&lt;/script&gt;",
+              "&lt;script&gt;ext&lt;/script&gt;"
+            ]);
+          });
+      });
+    });
+
+    context("Given a complete request", () => {
       after("spacer", () => console.log("\n"));
       beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
 
@@ -278,6 +314,32 @@ describe(`Endpoints to access scripts`, () => {
   });
 
   describe(`PATCH a single user script at /api/scripts/:user_id/:script_id`, () => {
+    after("spacing", () => console.log("-------------------------------------\n"));
+    context(`Given the script does not exist or belong to user`, () => {
+      after("spacer", () => console.log("\n"));
+      beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
+
+      it(`Responds with a 404 when not user's script`, () => {
+        let userToQuery = 1;
+        let scriptToQuery = 2;
+
+        return supertest(app)
+          .patch(`/api/scripts/${userToQuery}/${scriptToQuery}`)
+          .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+          .expect(404, { error: "This resource might have been moved or deleted." });
+      });
+
+      it(`Responds with a 404 when does not exist`, () => {
+        let userToQuery = 1;
+        let scriptToQuery = 2234;
+
+        return supertest(app)
+          .patch(`/api/scripts/${userToQuery}/${scriptToQuery}`)
+          .set("Authorization", helpers.makeAuthHeader(testUsers[0]))
+          .expect(404, { error: "This resource might have been moved or deleted." });
+      });
+    });
+
     context(`Given a valid response body`, () => {
       after("spacer", () => console.log("\n"));
       beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
