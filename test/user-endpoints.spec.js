@@ -289,7 +289,7 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
           password: "passwordF3@"
         },
         {
-          theme: "#ff5722"
+          theme: "#bf360c"
         }
       ];
       validEntries.forEach((entry) => {
