@@ -13,7 +13,7 @@ INSERT INTO users (admin, user_name, email, password)
 
 INSERT INTO scripts (title, author, subtitle, body, actors, user_id)
     VALUES
-    ('Great New Beginnings', 'Mark Wallace', 'An Original Screenplay', '[Int. Facebook HQ] Mark Zuckerberg slowly closes his laptop -- letting out a heavy sigh. {Mark} It''s the best website I have ever seen. Impossible. Simply impossible! How can I compete!?',ARRAY ['Mark'], 1),
+    ('Great New Beginnings', 'Mark Wallace', 'An Original Screenplay', '[Int. Facebook HQ] Mark Zuckerberg slowly closes his laptop -- letting out a heavy sigh. {Mark} It''s the best website I have ever seen. Impossible. Simply impossible! How can I compete!?',ARRAY ['Mark','Eduardo'], 1),
     ('Jom and Terry', 'Mike Man', 'Based on the classic cartoon', '[Ext.] House with no controversial depictions of color. [Desc] Tom and Jerry have two children named Jom and Terry. They have since matured greatly and sought out psychiatric help to address their issues. Surprisingly they discovered a romantic compatibility. {Tom} Yeeeeeowwwwwwwww. {Jerry} *smirks silently.',ARRAY ['Jerry Julliard'], 2),
     (default, default, default, default, default, 3),
     (default, default, default, default, default, 2),
