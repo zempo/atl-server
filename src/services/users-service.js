@@ -1,4 +1,5 @@
 const xss = require("xss");
+const knex = require("knex");
 const Treeize = require("treeize");
 const bcrypt = require("bcryptjs");
 const validator = require("email-validator");
@@ -16,6 +17,9 @@ const UsersService = {
       .select("*")
       .where("id", id)
       .first();
+  },
+  getThemes(db) {
+    return db.select(knex.raw("enum_range(NULL::theme)")).from("users");
   },
   insertUser(db, newUser) {
     return db
@@ -43,7 +47,7 @@ const UsersService = {
     return db("users")
       .where({ user_name })
       .first()
-      .then((user) => {
+      .then(user => {
         return !!user;
       });
   },
@@ -54,7 +58,7 @@ const UsersService = {
     return db("users")
       .where({ email })
       .first()
-      .then((user) => {
+      .then(user => {
         return !!user;
       });
   },
