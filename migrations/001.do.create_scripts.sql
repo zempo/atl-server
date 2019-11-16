@@ -1,7 +1,7 @@
 CREATE TABLE scripts (
 id SERIAL PRIMARY KEY,
 title TEXT DEFAULT 'UNTITLED PROJECT',
-author TEXT DEFAULT 'Lorem of Ipsum', 
+author TEXT DEFAULT 'J. Silvers', 
 subtitle TEXT DEFAULT 'An Original Screenplay',
 body TEXT DEFAULT '',
 actors TEXT [] DEFAULT ARRAY['John', 'Jane']::text[],

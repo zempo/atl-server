@@ -23,10 +23,14 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
   afterEach("cleanup", () => helpers.cleanTables(db));
 
   describe(`GET a specific user at api/users/`, () => {
-    after("spacing", () => console.log("-------------------------------------\n"));
+    after("spacing", () =>
+      console.log("-------------------------------------\n")
+    );
     context(`Given non-admin user queries their own profile`, () => {
       after("spacer", () => console.log("\n"));
-      beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
+      beforeEach("Insert Scripts", () =>
+        helpers.seedScripts(db, testUsers, testScripts)
+      );
 
       let userToQuery = 4;
       let expectedUser = helpers.makeExpectedUser(testUsers[userToQuery - 1]);
@@ -41,10 +45,14 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
   });
 
   describe(`POST all users at api/users/`, () => {
-    after("spacing", () => console.log("-------------------------------------\n"));
+    after("spacing", () =>
+      console.log("-------------------------------------\n")
+    );
     context("Incomplete user registration", () => {
       after("spacing", () => console.log("\n"));
-      beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
+      beforeEach("Insert Scripts", () =>
+        helpers.seedScripts(db, testUsers, testScripts)
+      );
 
       const incompleteFields = [
         {
@@ -59,13 +67,13 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
           password: "passwordF3@"
         }
       ];
-      incompleteFields.forEach((entry) => {
+      incompleteFields.forEach(entry => {
         it(`Throws error when missing ${Object.keys(entry)[0]}`, () => {
           return supertest(app)
             .post(`/api/users`)
             .send(entry)
             .expect(400)
-            .expect((res) => {
+            .expect(res => {
               console.log("");
               console.log(entry[Object.keys(entry)[0]]);
               console.log("");
@@ -79,7 +87,9 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
 
     context("Invalid user registration", () => {
       after("spacing", () => console.log("\n"));
-      beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
+      beforeEach("Insert Scripts", () =>
+        helpers.seedScripts(db, testUsers, testScripts)
+      );
 
       const invalidFields = [
         {
@@ -103,7 +113,8 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
           password: "passwordF3@"
         },
         {
-          user_name: "mike_has_a_really_long_username_how_did_he_have_the_patience_to_type_this_out",
+          user_name:
+            "mike_has_a_really_long_username_how_did_he_have_the_patience_to_type_this_out",
           email: "mickey@gmail.com",
           password: "passwordF3@"
         },
@@ -138,13 +149,13 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
           password: "averagePWD! "
         }
       ];
-      invalidFields.forEach((entry) => {
+      invalidFields.forEach(entry => {
         it(`Throws Error when invalid ${Object.keys(entry)[0]}`, () => {
           return supertest(app)
             .post(`/api/users`)
             .send(entry)
             .expect(400)
-            .expect((res) => {
+            .expect(res => {
               console.log("");
               console.log(entry[Object.keys(entry)[0]]);
               console.log("");
@@ -158,7 +169,9 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
 
     context("Complete user registration", () => {
       after("spacing", () => console.log("\n"));
-      beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
+      beforeEach("Insert Scripts", () =>
+        helpers.seedScripts(db, testUsers, testScripts)
+      );
 
       const validUsers = [
         {
@@ -170,17 +183,17 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
           user_name: "mikenospacers",
           email: "mickey@gmail.com",
           password: "passwordF3@",
-          theme: "#ff5722"
+          theme: "#283593"
         }
       ];
 
-      validUsers.forEach((request) => {
+      validUsers.forEach(request => {
         it(`Creates valid user ${request.theme ? "with theme" : ""}`, () => {
           return supertest(app)
             .post(`/api/users`)
             .send(request)
             .expect(201)
-            .expect((res) => {
+            .expect(res => {
               // console.log(res.body);
               expect(res.body).to.be.an("object");
               expect(res.body).to.have.property("id");
@@ -199,11 +212,15 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
   });
 
   describe(`DELETE a specific user at api/users/:user_id`, () => {
-    after("spacing", () => console.log("-------------------------------------\n"));
+    after("spacing", () =>
+      console.log("-------------------------------------\n")
+    );
 
     context(`Given the non-admin user queries their own profile`, () => {
       after("spacer", () => console.log("\n"));
-      beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
+      beforeEach("Insert Scripts", () =>
+        helpers.seedScripts(db, testUsers, testScripts)
+      );
       let userToQuery = 2;
 
       it(`Responds with a 204 for non-admin user`, () => {
@@ -216,11 +233,15 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
   });
 
   describe(`PATCH a specific user at api/users/:user_id`, () => {
-    after("spacing", () => console.log("-------------------------------------\n"));
+    after("spacing", () =>
+      console.log("-------------------------------------\n")
+    );
 
     context(`Given an invalid valid patch`, () => {
       after("spacer", () => console.log("\n"));
-      beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
+      beforeEach("Insert Scripts", () =>
+        helpers.seedScripts(db, testUsers, testScripts)
+      );
       let userToQuery = 2;
       let invalidEntries = [
         {
@@ -233,7 +254,8 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
           user_name: " testh"
         },
         {
-          user_name: "markoddffffffffffffffffffffffffffffffffhrhhyhyyykopkereorpktpokerpotkertpoyyttys"
+          user_name:
+            "markoddffffffffffffffffffffffffffffffffhrhhyhyyykopkereorpktpokerpotkertpoyyttys"
         },
         {
           email: "test1@email.com"
@@ -255,14 +277,14 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
         }
       ];
 
-      invalidEntries.forEach((entry) => {
+      invalidEntries.forEach(entry => {
         it(`Responds with 404 after invalid ${Object.keys(entry)[0]}`, () => {
           return supertest(app)
             .patch(`/api/users/${userToQuery}`)
             .set("Authorization", helpers.makeAuthHeader(testUsers[1]))
             .send(entry)
             .expect(400)
-            .expect((res) => {
+            .expect(res => {
               console.log("");
               console.log(entry[Object.keys(entry)[0]]);
               console.log("");
@@ -276,7 +298,9 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
 
     context(`Given a valid patch`, () => {
       after("spacer", () => console.log("\n"));
-      beforeEach("Insert Scripts", () => helpers.seedScripts(db, testUsers, testScripts));
+      beforeEach("Insert Scripts", () =>
+        helpers.seedScripts(db, testUsers, testScripts)
+      );
       let userToQuery = 2;
       let validEntries = [
         {
@@ -289,11 +313,13 @@ describe(`Unauthorized, Authorized, and Non-Admin Users`, () => {
           password: "passwordF3@"
         },
         {
-          theme: "#212121"
+          theme: "#283593"
         }
       ];
-      validEntries.forEach((entry) => {
-        it(`Responds with a 204 after patching ${Object.keys(entry)[0]}`, () => {
+      validEntries.forEach(entry => {
+        it(`Responds with a 204 after patching ${
+          Object.keys(entry)[0]
+        }`, () => {
           return supertest(app)
             .patch(`/api/users/${userToQuery}`)
             .set("Authorization", helpers.makeAuthHeader(testUsers[1]))
