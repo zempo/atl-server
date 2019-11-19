@@ -37,7 +37,7 @@ INSERT INTO scripts (title, author, subtitle, body, actors, user_id)
     ('Santa''s Sweatshop', 'Elfonzo', 'Based on 37 Human Rights Violations...', default, default, 1),
     ('Jericho: Season 3', 'Everyone', 'Please Don''t Cancel This Show', default, default, 1),
     (default, default, default, default, default, 1),
-        ('FizzBuzz III', 'Zark Muckerberg', 'Based on these Numbers...', default, default, 2),
+    ('FizzBuzz III', 'Zark Muckerberg', 'Based on these Numbers...', default, default, 2),
     ('Old Yeller 2: Bite Back', 'Virginia Woof', 'A Family-Friendly Film', default, default, 2),
     ('The Simpsons Did it', 'Trey Parker & Matt Stone', 'Again', default, default, 2),
     ('Boots n Cats', 'Kitt Y. Whiskers', default, default, default, 2),
