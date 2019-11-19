@@ -8,4 +8,4 @@ actors TEXT [] DEFAULT ARRAY['John', 'Jane']::text[],
 tags TEXT [] DEFAULT ARRAY['Int', 'Ext', 'Description', 'Angle On', 'Close-up', 'Continuation', 'Dissolve To', 'Fade In', 'Fade Out', 'Insert', 'Intercut', 'Montage', 'O.S.', 'POV', 'Series of Shots', 'Split Screen', 'Super', 'V.O.', 'Line-Break']::text[],
 date_created TIMESTAMP DEFAULT now() NOT NULL,
 date_updated TIMESTAMP 
-); 
+);  
