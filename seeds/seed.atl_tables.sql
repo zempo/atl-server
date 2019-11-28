@@ -7,7 +7,8 @@ TRUNCATE
 
 INSERT INTO users (admin, user_name, email, password)
     VALUES
-    (TRUE, 'MarkWallace', 'markwallace@scriptmail.com', '$2a$10$i57JnoTkJYAT3uFoPtSOze2FJziY6ldRtDHwTrnoDPpbYSMpxhRqq'),
+    (TRUE, 'MarkWallace', 'markwallace@scriptmail.com', '$2a$10$i57JnoTkJYAT3uFoPtSOze2FJziY6ldRtDHwTrnoDPpbYSMpxhRqq'), 
+    (TRUE, 'Zempo', 'zip-zimmer@gmail.com', '$2a$10$wweTPdDcJ5f6zAQRqmnkuOVDeHRzZCfW1p127E0An/9QI78.JDkXK'),   
     (default, 'Dylan_Demo', 'demo@atl.com', '$2a$10$rrRl.JlaHBatkCtqMb9LQeULolgY229iFXdRn8T8CKogxszXyMzCG'), 
     (default, 'MindyMomo', 'mmomo@gmail.com', '$2a$10$xK7keBV2VfSBU9P4W9ENYu5DX96Zn4ONnTuihzeXDmY552gmk5FuC');
 
@@ -16,7 +17,9 @@ INSERT INTO scripts (title, author, subtitle, body, actors, user_id)
     ('Great New Beginnings', 'Mark Wallace', 'An Original Screenplay', '[Int. Facebook HQ] Mark Zuckerberg slowly closes his laptop -- letting out a heavy sigh. {Mark} It''s the best website I have ever seen. Impossible. Simply impossible! How can I compete!?',ARRAY ['Mark','Eduardo'], 1),
     ('Jom and Terry', 'Mike Man', 'Based on the classic cartoon', '[Ext.] House with no controversial depictions of color. [Desc] Tom and Jerry have two children named Jom and Terry. They have since matured greatly and sought out psychiatric help to address their issues. Surprisingly they discovered a romantic compatibility. {Tom} Yeeeeeowwwwwwwww. {Jerry} *smirks silently.',ARRAY ['Jerry Julliard'], 3),
     (default, default, default, default, default, 3),
-    (default, default, default, default, default, 2),
+    (default, default, default, default, default, 4),
+        (default, default, default, default, default, 3),
+    (default, default, default, default, default, 4),
     ('FizzBuzz III', 'Zark Muckerberg', 'Based on these Numbers...', default, default, 1),
     ('Old Yeller 2: Bite Back', 'Virginia Woof', 'A Family-Friendly Film', default, default, 1),
     ('The Simpsons Did it', 'Trey Parker & Matt Stone', 'Again', default, default, 1),
@@ -56,5 +59,5 @@ INSERT INTO scripts (title, author, subtitle, body, actors, user_id)
     ('Santa''s Here', 'Elfonzo', 'A Christmas Adventure', default, default, 2),
     ('Santa''s Sweatshop', 'Elfonzo', 'Based on 37 Human Rights Violations...', default, default, 2),
     ('Jericho: Season 3', 'Everyone', 'Please Don''t Cancel This Show', default, default, 2);
-  
+   
 COMMIT; 
